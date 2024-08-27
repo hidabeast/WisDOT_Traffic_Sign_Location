@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
-from depth_anything_v2.dpt import DepthAnythingV2
+import sys
+import os
+script_dir = os.path.dirname(os.path.abspath(__file__))
+submodule_dir = os.path.join(script_dir, 'Depth-AnythingV2')
+# sys.path.append(os.path.abspath('/home/john_rathgeber/wisdot/WisDOT_Traffic_Sign_Location/Depth-AnythingV2'))
+sys.path.append(submodule_dir)
+from depth_anything_v2.dpt import DepthAnythingV2 # type: ignore
 from scipy.optimize import curve_fit
 import torch
 import math
@@ -24,16 +30,13 @@ def calculate_distance(img_path, sign_locs, VEHICLE_DELTA_Z, VEHICLE_DELTA_Y, i)
     # encoder = 'vitl' # or 'vits', 'vitb', 'vitg'
 
     # model = DepthAnythingV2(**model_configs[encoder])
-    # model.load_state_dict(torch.load(f'checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
+    # model.load_state_dict(torch.load(f'Depth-AnythingV2/checkpoints/depth_anything_v2_{encoder}.pth', map_location='cpu'))
     # model = model.to(DEVICE).eval()
 
     # raw_img = cv2.imread(img_path)
     # depth_map = model.infer_image(raw_img) # HxW raw depth map in numpy
     # depth_map_normalized = (depth_map - np.min(depth_map)) / (np.max(depth_map) - np.min(depth_map))
-    # depth_map_display = (depth_map_normalized*255).astype(np.uint8)
-    # # cv2.imwrite("depth_map_" + str(i + 1) + ".png", depth_map_display)
-
-    # Convert depth map to float32 and normalize (0-255 to 0-1 for processing)
+    # depth_map = (depth_map_normalized*255).astype(np.uint8)
 
     # COMMENTING IN
     depth_map_display = cv2.imread('depth_map_' + str(i + 1) + '.png', cv2.IMREAD_GRAYSCALE)
